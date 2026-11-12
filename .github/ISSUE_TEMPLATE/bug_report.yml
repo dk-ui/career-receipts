@@ -1,0 +1,41 @@
+name: Something went wrong
+description: Setup, filing, the CV sync or a check didn't do what you expected.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Please don't paste anything from your own vault.** No real names, employers,
+        numbers, files or screenshots. Use made-up details instead.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you said to Claude, and what it did.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Computer
+      options: [Mac, Windows, Linux]
+    validations:
+      required: true
+  - type: dropdown
+    id: how
+    attributes:
+      label: How did you get the vault?
+      options: [Downloaded the zip, Use this template, git clone, SETUP-PROMPT.md]
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy
+      options:
+        - label: This issue contains no real personal or employer details.
+          required: true

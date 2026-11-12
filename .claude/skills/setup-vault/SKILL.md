@@ -104,11 +104,12 @@ walk them through `examples/sample-vault/`: the chapter table in `chapters/READM
 chapter at each flag), one chapter's gap list, and `evidence-ledger.md`. Say plainly that the
 person and companies are invented.
 
-Then offer to delete it, along with the two files that only matter to the template's
-publisher: "That sample isn't yours, so I'd remove it to keep your vault clean. OK?" On yes:
+Then offer to delete it, along with the files that only matter to the template's public
+GitHub page (`build.sh`, `SETUP-PROMPT.md`, and `.github/` with its banner and issue
+forms): "That sample isn't yours, so I'd remove it to keep your vault clean. OK?" On yes:
 
 ```bash
-git rm -r -q --ignore-unmatch examples build.sh SETUP-PROMPT.md
+git rm -r -q --ignore-unmatch examples build.sh SETUP-PROMPT.md .github
 ```
 
 Remove their rows from the root `index.md`, and commit `chore: remove template sample`.
