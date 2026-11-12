@@ -1,0 +1,29 @@
+#!/bin/sh
+# Last check before anything leaves this machine. See CLAUDE.md "Privacy".
+#
+# 1. Never push to the public template this vault was cloned from. setup-vault
+#    renames that remote to `template`; this blocks it even if someone forgets.
+# 2. Scan the whole tree, not just what the last commit staged.
+remote_name="$1"
+remote_url="$2"
+cd "$(git rev-parse --show-toplevel)"
+
+if [ "$remote_name" = "template" ]; then
+    echo "push blocked: '$remote_name' is the public template, not your backup." >&2
+    echo "Your vault only ever pushes to your own private repo (CLAUDE.md 'Saving work')." >&2
+    exit 1
+fi
+
+# If the GitHub CLI is available, refuse any remote it can see is not private.
+if command -v gh >/dev/null 2>&1; then
+    vis="$(gh repo view "$remote_url" --json visibility -q .visibility 2>/dev/null)"
+    if [ -n "$vis" ] && [ "$vis" != "PRIVATE" ]; then
+        echo "push blocked: $remote_url is $vis. A career vault only goes to a PRIVATE repo." >&2
+        exit 1
+    fi
+fi
+
+python3 tools/privacy_scan.py --all || {
+    echo "push blocked by the privacy gate — nothing was sent" >&2
+    exit 1
+}

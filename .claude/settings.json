@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Bash(python3 tools/add_frontmatter.py)",
+      "Bash(python3 tools/gen_manifest.py:*)",
+      "Bash(python3 tools/privacy_scan.py:*)",
+      "Bash(python3 tools/claims_check.py:*)",
+      "Bash(python3 tools/vault_integrity.py:*)",
+      "Bash(python3 -m unittest discover tools)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv inbox/:*)",
+      "Bash(cp:*)",
+      "Bash(rm inbox/:*)",
+      "Bash(textutil -convert txt -stdout:*)",
+      "Bash(node doctor.mjs:*)",
+      "Bash(node scan.mjs:*)"
+    ],
+    "deny": [
+      "Bash(git push --force:*)",
+      "Bash(git commit --no-verify:*)",
+      "Bash(git commit -n:*)",
+      "Bash(git push --no-verify:*)",
+      "Bash(git add -f:*)",
+      "Bash(git add --force:*)"
+    ]
+  }
+}

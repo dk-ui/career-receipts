@@ -1,0 +1,24 @@
+# career-ops is its own git repo (cloned from github.com/santifer/career-ops by the
+# setup-vault skill). It lives inside this folder for convenience and is never
+# tracked here — same as a portfolio site would be.
+career-ops/
+
+# Drop zone. Contents are never committed: a raw drop hasn't been checked for
+# ID numbers yet. What gets committed is what the agent files from it. See inbox/README.md.
+inbox/*
+!inbox/README.md
+!inbox/index.md
+
+.DS_Store
+__pycache__/
+node_modules/
+
+# Video is too big for git history. Keep it in the chapter's media/ folder (Time Machine
+# backs it up) or link to where it's hosted; the chapter README describes it either way.
+*.mov
+*.mp4
+*.m4v
+*.avi
+
+# Built by build.sh for releases. Never committed.
+/career-vault.zip

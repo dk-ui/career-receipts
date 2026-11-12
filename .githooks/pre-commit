@@ -1,0 +1,44 @@
+#!/bin/sh
+# Runs on every commit. Three layers, in this order. See CLAUDE.md "Gates".
+#
+# 1. privacy_scan.py  -- BLOCKING. A leaked ID number stays in history, so it
+#    is caught before the commit exists. The only tool allowed to stop a commit.
+# 2. generators       -- never block. Keep frontmatter + MANIFEST.md in sync.
+# 3. claims_check     -- never blocks. Reports CV numbers with no ledger row.
+#
+# Turned on by: git config core.hooksPath .githooks  (the setup-vault skill does this)
+
+set -e
+cd "$(git rev-parse --show-toplevel)"
+
+if ! python3 tools/privacy_scan.py --staged; then
+    echo "commit blocked by the privacy gate — see CLAUDE.md 'Privacy'" >&2
+    exit 1
+fi
+
+# Remember what was staged BEFORE the generators run, and re-stage only those.
+# Re-adding every modified file would sweep unrelated half-done edits into this commit.
+STAGED_MD="$(git diff --cached --name-only --diff-filter=ACM -- '*.md')"
+
+python3 tools/add_frontmatter.py
+
+# Re-stage before gen_manifest: it reads the git index, so the index must already
+# hold the refreshed `links:` or the manifest is built from stale ones.
+printf '%s\n' "$STAGED_MD" | while IFS= read -r f; do
+    # An if, not an && chain: under `set -e` a false test as the loop's last
+    # command would abort the commit when nothing .md is staged.
+    if [ -n "$f" ] && [ -f "$f" ]; then git add -- "$f"; fi
+done
+
+python3 tools/gen_manifest.py
+git add MANIFEST.md
+
+# Only when the CV or the ledger moved: the same report on every unrelated commit
+# is how a report trains people to ignore it.
+if git diff --cached --name-only | grep -qE '^(evidence-ledger|cv)\.md$'; then
+    python3 tools/claims_check.py || true
+fi
+
+# the generators just rewrote staged content, so scan what they produced
+python3 tools/privacy_scan.py --staged || exit 1
+exit 0
