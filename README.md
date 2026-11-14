@@ -24,6 +24,11 @@
   <a href="#questions">Questions</a>
 </p>
 
+<p align="center">
+  <img src=".github/assets/demo.gif" alt="Demo: a chapter's shrink claim is marked red with no proof. The owner drags a regional shrink report into the inbox and types 'file my inbox'. Claude files it in the right chapter, ticks the gap, and the evidence ledger row turns green." width="100%">
+  <br><sub>45 seconds: a claim with no proof, one dropped file, and the claim gets its receipt. Claude's working time is sped up.</sub>
+</p>
+
 ---
 
 **career-receipts** is a private folder on your computer that Claude Code keeps organized

@@ -12,7 +12,7 @@ trap 'rm -rf "$stage"' EXIT
 # Tracked files only: nothing untracked, ignored, or half-done gets shipped.
 git ls-files -z | while IFS= read -r -d '' f; do
     case "$f" in
-        examples/*|build.sh) continue ;;
+        examples/*|build.sh|.github/assets/demo.gif) continue ;;
     esac
     mkdir -p "$stage/career-vault/$(dirname "$f")"
     cp -p "$f" "$stage/career-vault/$f"

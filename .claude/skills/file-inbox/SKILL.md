@@ -62,6 +62,10 @@ down is one nobody will find again.
 - Destination `index.md`: add a line for the new file.
 - Destination `README.md`: what it shows. **Tick any gap it closes, and re-judge the status
   flag.** For example, 🔴 → 🟡 when the first real artifact lands.
+- **Overview rows:** if the file landed in a chapter, update that chapter's row in
+  `chapters/README.md` (flag and "N of M" proven) and in `chapters/index.md` (flag). These
+  tables are what the owner looks at first, so a flag that moved in the chapter but not here
+  reads as nothing happened.
 - `evidence-ledger.md`: if it backs a number or a superlative the owner uses, add or update
   the row and set its status.
 - A new **resume version**: note in `resumes/README.md` whether it changes what the live CV
